@@ -23,6 +23,18 @@ server.get('/api/users/:id', (request, response) => {
     })
 })
 
+server.post('/api/users', (request, response) => {
+    let user = request.body
+    User.insert(user).then(user => {
+        if(!user){
+            response.status(400).json({ message: "Please provide name and bio for the user" })
+        } else{
+            response.status(201).json(user)
+        }
+        
+    })
+})
+
 
 
 
