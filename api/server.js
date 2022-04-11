@@ -13,6 +13,16 @@ server.get('/api/users', (request, response) => {
     })
 })
 
+server.get('/api/users/:id', (request, response) => {
+    User.findById(request.params.id).then(user => {
+        if(!user){
+            response.status(404).json({ message: "The user with the specified ID does not exist" })
+        } else {
+            response.json(user)
+        }
+    })
+})
+
 
 
 
