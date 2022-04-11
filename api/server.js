@@ -35,6 +35,29 @@ server.post('/api/users', (request, response) => {
     })
 })
 
+server.put('/api/users/:id', (req, res) => {
+    let id = req.params.id; 
+    let user = req.body; 
+
+    User.update(id, user).then((updatedUser) => {
+        if(!updatedUser){
+            res.status(404).json({message: "The user with the specified ID does not exist" })
+        } else{
+            res.json(updatedUser)
+        }
+    })
+})
+
+
+server.delete('/api/users/:id', (req, res) => {
+    User.remove(req.params.id).then(user => {
+        if(!user){
+            res.status(404).json({message: "The user with the specified ID does not exist"})
+        } else{
+            res.json(user)
+        }
+    })
+})
 
 
 
