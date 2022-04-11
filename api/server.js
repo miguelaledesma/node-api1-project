@@ -25,14 +25,28 @@ server.get('/api/users/:id', (request, response) => {
 
 server.post('/api/users', (request, response) => {
     let user = request.body
-    User.insert(user).then(user => {
-        if(!user){
-            response.status(400).json({ message: "Please provide name and bio for the user" })
-        } else{
-            response.status(201).json(user)
-        }
+
+    if(!user.name || !user.bio){
+        response.status(400).json({message: "Please provide name and bio for the user"})
+    } else {
+        User.insert(user).then(createdUser => {
+            response.status(201).json(createdUser)
+        })
+        .catch(err => {
+            response.status(500).json({message: "There was an error while saving the user to the database" })
+        })
+    }
+
+    
+    // User.insert(user).then(user => {
+    //     if(!user){
+    //         response.status(500).json({ message: "There was an error while saving the user to the database" })
+    //         // response.status(500).json({ message: "There was an error while saving the user to the database" })
+    //     } else{
+    //         response.status(201).json(user)
+    //     }
         
-    })
+    // })
 })
 
 server.put('/api/users/:id', (req, res) => {
